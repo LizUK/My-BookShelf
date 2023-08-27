@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <link href="style.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <div id="wrapper">
+
+        <div container id="main-table">
+
+            <header>
+
+                <div id="logo"><a href="#"><img src="images/logo.png" alt="Library Logo"></a></div>
+                <div id="page-title"><h1>My BookShelf</h1></div>
+                <div id="account-area"><a href="#"><img src="images/myaccount.png"></a>
+                <nav id="menu" class="no-display">
+                    <ul>
+                        <li>
+                            <a href="#">My Profile</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings</a>
+                        </li>
+                        <li>
+                            <a href="#">Sign In</a>
+                        </li>
+                    </ul>
+                </nav></div>
+
+
+            </header><!-- End header -->
+
+            <div id="bookdisplay">
+
+                <div id="bookshelf">
+
+                    <div id="shelf"></div>
+                    
+                </div>
+
+                <div id="bookinfo">
+
+                    <div id="bookcard" class="no-display">
+
+                        <h3 class="title">$Book Title</h3>
+                        <p class="author">%Author</p>
+                        <p><strong>Book Length:</strong> <span class="pages">$no</span> pages</p>
+                        <p class="amountread"><strong>Amount read:</strong> <span class="pagesread">$no</span> pages</p>
+                        <div class="completed">
+
+                              <p>You have not yet completed this book.</p></div>
+                        <div class="recommended">
+
+                              <p>$Recommended</p></div>
+
+
+                    </div>
+
+                </div>
+
+            </div><!-- End #bookdisplay -->
+
+            <div id="page">
+
+                <div class="button-row">
+
+                    <button id="add-book">+</button><h3>Add New Book</h3>
+
+                    <div id="remove-book" class="no-display"><button>-</button><h3>Remove Book</h3></div>
+
+                </div>
+
+                <div id="formcontainer" class="no-display">
+
+                    <form id="form">
+
+                        <h2>Add a new book</h2>
+
+                        <label for="booktitle">Book Title</label><br>
+                        <input type="text" id="booktitle" name="booktitle" required><br>
+                        <label for="author">Author</label><br>
+                        <input type="text" id="author" name="author" required><br>
+                        <label for="pages">Number of Pages</label><br>
+                        <input type="number" value="1" id="pages" name="pages" required><br>
+                        <label for="pagesread">Amount of Pages Read</label><br>
+                        <input type="number" value="1" id="pagesread" name="pagesread" required><br>
+                        <input type="checkbox" id="completed" name="completed">
+                        <label for="completed">Have you completed this book?</label><br>
+                        <input type="checkbox" id="recommended" name="recommended">
+                        <label for="recommended">Would you recommend this book?</label><br>
+                        <input type="submit" id="submitform" value="Submit">
+                        
+
+                    </form>
+
+                </div>
+                
+
+            </div><!-- End #page -->
+
+        </div><!-- End #main-table -->
+
+    </div><!-- End #wrapper -->
+    <script src="script.js"></script>
+    
+</body>
+</html>

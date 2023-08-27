@@ -1,0 +1,306 @@
+h1,
+h2,
+h3,
+p,
+label,
+a {
+    font-family: 'Roboto', sans-serif;
+}
+
+#main-table {
+    display: grid;
+    gap: 15px;
+    padding: 15px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 130px 2fr 2fr;
+    border: 2px solid #000;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column: span 4;
+}
+
+#logo {
+    grid-column-start: 1;
+}
+
+#logo img {
+    max-width: 130px;
+}
+
+#page-title {
+    align-self: center;
+    justify-self: center;
+}
+
+#account-area {
+    align-self: center;
+    justify-self: right;
+    text-align: center;
+    margin-right: 15px;
+}
+
+#account-area img {
+    max-height: 50px;
+}
+
+#menu {
+    position: absolute;
+    right: 25px;
+    background-color: #fff;
+    border: 2px solid #000;
+    padding: 0 15px;
+    border-radius: 10px;
+}
+
+#menu ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+#menu ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #000;
+}
+
+#menu ul li a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+
+#menu ul li a:hover {
+    text-decoration: underline;
+}
+
+#bookdisplay {
+    grid-column: span 4;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    align-items: center;
+}
+
+#bookshelf {
+    display: grid;
+    grid-auto-rows: 150px;
+    align-items: end;
+    padding: 15px 15px 0px 15px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    height: 180px;
+    overflow-y: scroll;
+    border-bottom: 5px solid #000;
+}
+
+#shelf {
+    height: 170px;
+    border-bottom: 5px solid #000;
+    display: grid;
+    row-gap: 80px;
+    grid-template-columns: repeat(auto-fill, minmax(25px,40px));
+    align-items: end;
+}
+
+.book {
+    display: grid;
+    padding-top: 5px;
+    writing-mode: vertical-rl;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    text-wrap: nowrap;
+    overflow: hidden;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+    align-content: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.book p  {
+    padding: 5px 0;
+    margin: 0;
+    display: inline-block;
+    opacity: .8;
+    border-radius: 5px;
+  }
+
+#page {
+    grid-column: span 4;
+}
+
+#add-book,
+#remove-book button {
+    font-size: 32px;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#add-book {
+    background-color: darkcyan;
+}
+
+#remove-book button {
+    background-color: red;
+}
+
+.button-row h3 {
+    display: inline-block;
+    margin: 0 30px 0 10px;
+}
+
+/*** FORM ***/
+
+#form {
+    position: absolute;
+    top: 10%;
+    left: 30%;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 15px;
+}
+
+.no-display {
+    display: none;
+}
+
+#form h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+#form input {
+    margin: 5px 0 10px 0;
+}
+
+#form input[type=text] {
+    height: 30px;
+    width: 75%;
+    font-weight: bold;
+    color: darkcyan;
+    padding-left: 5px;
+}
+
+#submitform {
+    background-color: darkcyan;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 5px;
+    width: 50%;
+    height: 30px;
+    border-radius: 5px;
+}
+
+/**** BOOK CARD ****/
+
+#bookcard {
+    border: 1px solid #000;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+#bookcard .title {
+    margin-top: 0;
+    text-align: center;
+}
+
+#bookcard .author {
+    text-align: right;
+}
+
+#bookcard .amountread button {
+    background-color: cornflowerblue;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #000;
+    height: 25px;
+    width: 25px;
+}
+
+#bookcard .amountread .down {
+    margin: 0 10px 0 10px;
+}
+
+.completed {
+    margin-bottom: 15px;
+}
+
+.completed p,
+.recommeded p {
+    display: inline;
+}
+
+/***** Toggle switch *****/
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 25px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 5px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: darkcyan;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px darkcyan;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
