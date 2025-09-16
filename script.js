@@ -103,13 +103,16 @@ function addBookFnc(title) {
 
 ///// STORE BOOK DETAILS /////
 
-function BookDetails(title, author, pages, pagesread, completed, recommended){
+function BookDetails(title, author, pages, pagesRead, completed, recommended, bookHeight, bookWidth, bookColour ){
           this.title = title,
           this.author = author,
           this.pages = pages,
-          this.pagesread = pagesread,
+          this.pagesread = pagesRead,
           this.completed = completed,
-          this.recommended = recommended
+          this.recommended = recommended,
+          this.bookHeight = bookHeight,
+          this.bookWidth = bookWidth,
+          this.bookColour = bookColour
       }
 
 function updateBookShelf() {
@@ -117,9 +120,12 @@ function updateBookShelf() {
   let title = document.getElementById("booktitle").value;
   let author = document.getElementById("author").value;
   let pages =  document.getElementById("pages").value;
-  let pagesread = document.getElementById("pagesread").value;
+  let pagesRead = document.getElementById("pagesread").value;
   let completed = document.getElementById("completed").checked;
   let recommended = document.getElementById("recommended").checked;
+  let bookColour = book.style.backgroundColor = color;
+  let bookHeight =  book.style.height = bookHeight + 'px';
+  let bookWidth =  book.style.width = bookWidth + 'px';
 
   ///// CHECK PAGES VS PAGES READ /////
 
@@ -223,5 +229,6 @@ function updateStorage() {
 
 
 console.log(bookShelf)
+
 
 
