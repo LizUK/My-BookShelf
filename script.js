@@ -103,16 +103,13 @@ function addBookFnc(title) {
 
 ///// STORE BOOK DETAILS /////
 
-function BookDetails(title, author, pages, pagesRead, completed, recommended, bookHeight, bookWidth, bookColour ){
+function BookDetails(title, author, pages, pagesread, completed, recommended){
           this.title = title,
           this.author = author,
           this.pages = pages,
-          this.pagesread = pagesRead,
+          this.pagesread = pagesread,
           this.completed = completed,
-          this.recommended = recommended,
-          this.bookHeight = bookHeight,
-          this.bookWidth = bookWidth,
-          this.bookColour = bookColour
+          this.recommended = recommended
       }
 
 function updateBookShelf() {
@@ -120,12 +117,9 @@ function updateBookShelf() {
   let title = document.getElementById("booktitle").value;
   let author = document.getElementById("author").value;
   let pages =  document.getElementById("pages").value;
-  let pagesRead = document.getElementById("pagesread").value;
+  let pagesread = document.getElementById("pagesread").value;
   let completed = document.getElementById("completed").checked;
   let recommended = document.getElementById("recommended").checked;
-  let bookColour = book.style.backgroundColor = color;
-  let bookHeight =  book.style.height = bookHeight + 'px';
-  let bookWidth =  book.style.width = bookWidth + 'px';
 
   ///// CHECK PAGES VS PAGES READ /////
 
@@ -133,7 +127,7 @@ function updateBookShelf() {
     completed = true;
   }
 
-  let newBook = new BookDetails(title, author, pages, pagesread, completed, recommended, bookHeight, bookWidth, bookColour);
+  let newBook = new BookDetails(title, author, pages, pagesread, completed, recommended);
 
   bookShelf.push(newBook);
 
@@ -229,7 +223,4 @@ function updateStorage() {
 
 
 console.log(bookShelf)
-
-
-
 
