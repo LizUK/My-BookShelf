@@ -133,7 +133,7 @@ function updateBookShelf() {
     completed = true;
   }
 
-  let newBook = new BookDetails(title, author, pages, pagesread, completed, recommended);
+  let newBook = new BookDetails(title, author, pages, pagesread, completed, recommended, bookHeight, bookWidth, bookColour);
 
   bookShelf.push(newBook);
 
@@ -229,6 +229,7 @@ function updateStorage() {
 
 
 console.log(bookShelf)
+
 
 
 
