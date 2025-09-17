@@ -17,21 +17,6 @@ const
   bookShelf = JSON.parse( localStorage.getItem(localStorageKey) || '[]' ),
   booksElms = [];
 
-  
-///// OPEN MENU /////
-
-menuBtn.addEventListener('mouseover', () => {
-  menu.classList.remove('no-display');
-});
-
-menuBtn.addEventListener('mouseout', () => {
-  menu.classList.add('no-display');
-});
-
-/////     /////
-
-
-
 ///// OPEN FORM /////
 
 addBookBtn.addEventListener('click', () => {
@@ -42,46 +27,62 @@ addBookBtn.addEventListener('click', () => {
 /////     /////
 
 
+
+///// CREATE RANDOM COLOUR AND SIZE /////
+
+function randomColor() {
+  var x = Math.round(0xffffff * Math.random()).toString(16);
+  var y = (6 - x.length);
+  var z = '000000';
+  var z1 = z.substring(0, y);
+  return '#' + z1 + x;
+}
+
+function getNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+///// STORE BOOK DETAILS /////
+
+function BookDetails(title, author, pages, pagesread, completed, recommended, color, width, height){
+          this.title = title,
+          this.author = author,
+          this.pages = pages,
+          this.pagesread = pagesread,
+          this.completed = completed,
+          this.recommended = recommended,
+          this.color = color,
+          this.width = width,
+          this.height = height
+      };
+
 ///// ADD BOOK ELEMENT TO SHELF /////
 
-function addBookFnc(title) {
-  let book = document.createElement('div'); 
+function addBookFnc(bookObj, index) {
+  let book = document.createElement('div');
   let bTitle = document.createElement('p');
-  var x = Math.round(0xffffff * Math.random()).toString(16);
-  var y = (6-x.length);
-  var z = '000000';
-  var z1 = z.substring(0,y);
-  var color = '#' + z1 + x;
 
-  function getNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
+  book.classList.add('book');
+  book.style.backgroundColor = bookObj.color;
+  book.style.height = bookObj.height + 'px';
+  book.style.width = bookObj.width + 'px';
+
+  if (bookObj.title) {
+    bTitle.textContent = bookObj.title;
+    bTitle.style.backgroundColor = '#fff';
   }
-
-  var bookHeight = getNumber(70, 150);
-  var bookWidth = getNumber(25, 45);
-
-    book.classList.add('book');
-    book.style.backgroundColor = color;
-    book.style.height = bookHeight + 'px';
-    book.style.width = bookWidth + 'px';
-
-    if (title) {
-  
-      bTitle.textContent = title;
-      bTitle.style.backgroundColor = '#fff';
-    }
     
     shelf.appendChild(book);
     book.appendChild(bTitle);
     booksElms.push(book);
+
+    book.addEventListener('click', () => openBookCard(bookObj, index));
+
   }
 
-  if (bookShelf) {
-    bookShelf.forEach(book => {
-      addBookFnc(book?.title);
-      
-    });
-  }
+  if (bookShelf.length > 0) {
+  bookShelf.forEach(bookObj => addBookFnc(bookObj));
+}
 
   function addBookForm() {
     let hasEmptyBook = false;
@@ -95,71 +96,13 @@ function addBookFnc(title) {
     });
 
     if (hasEmptyBook === false) return '';
-
-}
-
-
-/////    /////
-
-///// STORE BOOK DETAILS /////
-
-function BookDetails(title, author, pages, pagesread, completed, recommended){
-          this.title = title,
-          this.author = author,
-          this.pages = pages,
-          this.pagesread = pagesread,
-          this.completed = completed,
-          this.recommended = recommended
-      }
-
-function updateBookShelf() {
-
-  let title = document.getElementById("booktitle").value;
-  let author = document.getElementById("author").value;
-  let pages =  document.getElementById("pages").value;
-  let pagesread = document.getElementById("pagesread").value;
-  let completed = document.getElementById("completed").checked;
-  let recommended = document.getElementById("recommended").checked;
-
-  ///// CHECK PAGES VS PAGES READ /////
-
-  if (pages == pagesread) {
-    completed = true;
   }
-
-  let newBook = new BookDetails(title, author, pages, pagesread, completed, recommended);
-
-  bookShelf.push(newBook);
-
-}
-
-
-myForm.addEventListener('submit', e =>
-
-{
-
-addBookFnc();
-updateBookShelf();
-addBookForm();
-
-formDiv.classList.add('no-display');
-// myForm.reset();
-
-updateStorage();
-
-});
-
-/////    /////
 
 ///// OPEN BOOK CARD /////
 
-var books = document.querySelectorAll('.book');
-for (let b = 0; b < books.length; b++) {
-
-  books[b].addEventListener('click' , function() {
+function openBookCard(book, index) {
       
     bookCard.classList.remove('no-display');
-    let book = bookShelf[b];
     let titleSpace = document.querySelector('h3.title');
     let authorSpace = document.querySelector('p.author');
     let pagesSpace = document.querySelector('span.pages');
@@ -174,15 +117,12 @@ for (let b = 0; b < books.length; b++) {
     let completedValue = book.completed;
     let recommendedValue = book.recommended;
 
-
-
-    /////     /////
-
+    const pagesLeft = book.pages - book.pagesread;
 
     if (completedValue == true){
       completedSpace.innerHTML = 'You have completed this book.';
     } else {
-      completedSpace.innerHTML = 'You have not yet completed this book.';
+      completedSpace.innerHTML = 'You have not yet completed this book. You have ' + pagesLeft + ' pages left';
     }
   
     if (recommendedValue == true){
@@ -191,29 +131,52 @@ for (let b = 0; b < books.length; b++) {
       recommendedSpace.innerHTML = "";
     }
 
-
-
     //// REMOVE BOOK /////
 
     removeBtn.style.display = 'inline-block';
 
-    function removeBook() {
-      books[b].remove();
-      let bookIndex = bookShelf.findIndex(x => x.title === book.title)
-      if (bookIndex >= 0)
-        bookShelf.splice(bookIndex, 1);
-
-      updateStorage();
-      window.location.reload();
-
-    }
-      
-      removeBtn.onclick = () => removeBook();
-
-      updateStorage();
-  })
+    removeBtn.style.display = 'inline-block';
+  removeBtn.onclick = () => {
+    document.querySelectorAll('.book')[index].remove();
+    bookShelf.splice(index, 1);
+    updateStorage();
+    window.location.reload(); // refresh UI
+  };
 };
 
+///// FORM SUBMIT /////
+myForm.addEventListener('submit', e => {
+
+  e.preventDefault();
+
+  let title = document.getElementById("booktitle").value;
+  let author = document.getElementById("author").value;
+  let pages =  document.getElementById("pages").value;
+  let pagesread = document.getElementById("pagesread").value;
+  let completed = document.getElementById("completed").checked;
+  let recommended = document.getElementById("recommended").checked;
+
+
+  if (pages == pagesread) {
+    completed = true;
+  }
+
+  let color = randomColor();
+  let width = getNumber(25, 45);
+  let height = getNumber(70, 150);
+
+  let newBook = new BookDetails(title, author, pages, pagesread, completed, recommended, color, width, height);
+
+  bookShelf.push(newBook);
+
+addBookFnc(newBook, bookShelf.length - 1);
+
+updateStorage();
+
+formDiv.classList.add('no-display');
+myForm.reset();
+
+});
 
 /////    /////
 
@@ -221,6 +184,4 @@ function updateStorage() {
   localStorage.setItem(localStorageKey, JSON.stringify( bookShelf ));
 }
 
-
-console.log(bookShelf)
 
