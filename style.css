@@ -104,8 +104,19 @@ header {
     grid-template-columns: repeat(auto-fill, minmax(25px,40px));
     align-items: end;
 }
-
 .book {
+    display: grid;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    writing-mode: vertical-rl;
+    text-align: center;
+    align-content: center;
+    font-size: 13px;
+    overflow: hidden;
+    text-wrap: nowrap;
+}
+
+/* .book {
     display: grid;
     padding-top: 5px;
     writing-mode: vertical-rl;
@@ -127,11 +138,11 @@ header {
     display: inline-block;
     opacity: .8;
     border-radius: 5px;
-  }
+  } */
 
 #page {
     grid-column: span 4;
-}
+} 
 
 #add-book,
 #remove-book button {
@@ -161,7 +172,7 @@ header {
 
 /*** FORM ***/
 
-#form {
+ #form {
     position: absolute;
     top: 10%;
     left: 30%;
@@ -201,7 +212,7 @@ header {
     width: 50%;
     height: 30px;
     border-radius: 5px;
-}
+} 
 
 /**** BOOK CARD ****/
 
@@ -241,11 +252,11 @@ header {
 .completed p,
 .recommeded p {
     display: inline;
-}
+} 
 
 /***** Toggle switch *****/
 
-.switch {
+/* .switch {
     position: relative;
     display: inline-block;
     width: 45px;
@@ -294,13 +305,13 @@ header {
     -webkit-transform: translateX(16px);
     -ms-transform: translateX(16px);
     transform: translateX(16px);
-  }
+  } */
   
   /* Rounded sliders */
-  .slider.round {
+  /* .slider.round {
     border-radius: 34px;
   }
   
   .slider.round:before {
     border-radius: 50%;
-  }
+  } */
