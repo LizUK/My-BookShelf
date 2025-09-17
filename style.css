@@ -116,6 +116,14 @@ header {
     text-wrap: nowrap;
 }
 
+.book p  {
+    padding: 5px 0;
+    margin: 0;
+    display: inline-block;
+    opacity: .8;
+    border-radius: 5px;
+  }
+
 /* .book {
     display: grid;
     padding-top: 5px;
@@ -315,3 +323,4 @@ header {
   .slider.round:before {
     border-radius: 50%;
   } */
+
