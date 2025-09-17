@@ -1,4 +1,4 @@
-// localStorage.clear();
+localStorage.clear();
 const
   menuBtn = document.getElementById('account-area'),
   menu = document.getElementById('menu'),
@@ -183,5 +183,6 @@ myForm.reset();
 function updateStorage() {
   localStorage.setItem(localStorageKey, JSON.stringify( bookShelf ));
 }
+
 
 
