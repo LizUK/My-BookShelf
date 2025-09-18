@@ -17,6 +17,8 @@ const
   bookShelf = JSON.parse( localStorage.getItem(localStorageKey) || '[]' ),
   booksElms = [];
 
+let editingIndex = null;
+
 ///// OPEN FORM /////
 
 addBookBtn.addEventListener('click', () => {
@@ -26,16 +28,14 @@ addBookBtn.addEventListener('click', () => {
 
 /////     /////
 
-
-
 ///// CREATE RANDOM COLOUR AND SIZE /////
 
 function randomColor() {
-  var x = Math.round(0xffffff * Math.random()).toString(16);
-  var y = (6 - x.length);
-  var z = '000000';
-  var z1 = z.substring(0, y);
-  return '#' + z1 + x;
+   const hue = Math.floor(Math.random() * 360);
+  const saturation = 30 + Math.floor(Math.random() * 20);
+  const lightness = 75 + Math.floor(Math.random() * 15);
+
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
 function getNumber(min, max) {
@@ -44,11 +44,12 @@ function getNumber(min, max) {
 
 ///// STORE BOOK DETAILS /////
 
-function BookDetails(title, author, pages, pagesread, completed, recommended, color, width, height){
+function BookDetails(title, author, pages, pagesread, notes, completed, recommended, color, width, height){
           this.title = title,
           this.author = author,
           this.pages = pages,
           this.pagesread = pagesread,
+          this.notes = notes,
           this.completed = completed,
           this.recommended = recommended,
           this.color = color,
@@ -59,29 +60,33 @@ function BookDetails(title, author, pages, pagesread, completed, recommended, co
 ///// ADD BOOK ELEMENT TO SHELF /////
 
 function addBookFnc(bookObj, index) {
+  let bookBlock = document.createElement('div');
   let book = document.createElement('div');
   let bTitle = document.createElement('p');
 
+  bookBlock.classList.add('bookblock');
   book.classList.add('book');
   book.style.backgroundColor = bookObj.color;
   book.style.height = bookObj.height + 'px';
   book.style.width = bookObj.width + 'px';
+  
 
   if (bookObj.title) {
     bTitle.textContent = bookObj.title;
     bTitle.style.backgroundColor = '#fff';
   }
     
-    shelf.appendChild(book);
+    shelf.appendChild(bookBlock);
+    bookBlock.appendChild(book);
     book.appendChild(bTitle);
-    booksElms.push(book);
+    booksElms.push(bookBlock);
 
-    book.addEventListener('click', () => openBookCard(bookObj, index));
+    bookBlock.addEventListener('click', () => openBookCard(bookObj, index));
 
   }
 
   if (bookShelf.length > 0) {
-  bookShelf.forEach(bookObj => addBookFnc(bookObj));
+  bookShelf.forEach((bookObj, i) => addBookFnc(bookObj, i));
 }
 
   function addBookForm() {
@@ -107,6 +112,7 @@ function openBookCard(book, index) {
     let authorSpace = document.querySelector('p.author');
     let pagesSpace = document.querySelector('span.pages');
     let pagesReadSpace = document.querySelector('span.pagesread');
+    let notesSpace = document.querySelector('span.notes');
     let completedSpace = document.querySelector('div.completed p');
     let recommendedSpace = document.querySelector('div.recommended p');
     
@@ -114,6 +120,7 @@ function openBookCard(book, index) {
     authorSpace.innerHTML = book.author;
     pagesSpace.innerHTML = book.pages;
     pagesReadSpace.innerHTML = book.pagesread;
+    notesSpace.innerHTML = book.notes;
     let completedValue = book.completed;
     let recommendedValue = book.recommended;
 
@@ -131,16 +138,35 @@ function openBookCard(book, index) {
       recommendedSpace.innerHTML = "";
     }
 
+    let updateBtn = document.querySelector("#bookcard button");
+
+  updateBtn.replaceWith(updateBtn.cloneNode(true)); // clear old listeners
+  updateBtn = document.querySelector("#bookcard button");
+
+  updateBtn.addEventListener("click", () => {
+  editingIndex = index;
+
+  document.getElementById("booktitle").value = book.title;
+  document.getElementById("author").value = book.author;
+  document.getElementById("pages").value = book.pages;
+  document.getElementById("pagesread").value = book.pagesread;
+  document.getElementById("notes").value = book.notes;
+  document.getElementById("completed").checked = book.completed;
+  document.getElementById("recommended").checked = book.recommended;
+
+  formDiv.classList.remove("no-display");
+});
+
     //// REMOVE BOOK /////
 
     removeBtn.style.display = 'inline-block';
 
     removeBtn.style.display = 'inline-block';
-  removeBtn.onclick = () => {
+    removeBtn.onclick = () => {
     document.querySelectorAll('.book')[index].remove();
     bookShelf.splice(index, 1);
     updateStorage();
-    window.location.reload(); // refresh UI
+    window.location.reload(); 
   };
 };
 
@@ -153,6 +179,7 @@ myForm.addEventListener('submit', e => {
   let author = document.getElementById("author").value;
   let pages =  document.getElementById("pages").value;
   let pagesread = document.getElementById("pagesread").value;
+  let notes = document.getElementById("notes").value;
   let completed = document.getElementById("completed").checked;
   let recommended = document.getElementById("recommended").checked;
 
@@ -161,29 +188,49 @@ myForm.addEventListener('submit', e => {
     completed = true;
   }
 
-  let color = randomColor();
-  let width = getNumber(25, 45);
-  let height = getNumber(70, 150);
+  let color, width, height;
 
-  let newBook = new BookDetails(title, author, pages, pagesread, completed, recommended, color, width, height);
+  if (editingIndex !== null) {
+    // keep original style
+    let oldBook = bookShelf[editingIndex];
+    color = oldBook.color;
+    width = oldBook.width;
+    height = oldBook.height;
 
-  bookShelf.push(newBook);
+    bookShelf[editingIndex] = new BookDetails(
+      title, author, pages, pagesread, notes, completed, recommended,
+      color, width, height
+    );
 
-addBookFnc(newBook, bookShelf.length - 1);
+    updateStorage();
+    window.location.reload(); // refresh UI
+    editingIndex = null;
 
-updateStorage();
+    } else {
+    // new book
+      color = randomColor();
+      width = getNumber(25, 45);
+      height = getNumber(70, 150);
 
-formDiv.classList.add('no-display');
-myForm.reset();
+      let newBook = new BookDetails(
+        title, author, pages, pagesread, notes, completed, recommended,
+        color, width, height
+      );
 
-});
+      bookShelf.push(newBook);
+      addBookFnc(newBook, bookShelf.length - 1);
+      updateStorage();
+    }
+
+    formDiv.classList.add("no-display");
+    myForm.reset();
+  });
 
 /////    /////
 
 function updateStorage() {
   localStorage.setItem(localStorageKey, JSON.stringify( bookShelf ));
 }
-
 
 
 
