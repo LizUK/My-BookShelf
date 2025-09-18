@@ -20,8 +20,8 @@
 
             <header>
 
-                <div id="logo"><a href="#"><img src="images/logo.png" alt="Library Logo"></a></div>
-                <div id="page-title"><h1>My BookShelf</h1></div>
+                <div></div>
+                <div id="page-title"><img src="images/logo.jpg" alt="My Bookshelf"></div>
                 <div id="account-area"><a href="#"><img src="images/myaccount.png"></a>
                 <nav id="menu" class="no-display">
                     <ul>
@@ -52,18 +52,27 @@
 
                     <div id="bookcard" class="no-display">
 
-                        <h3 class="title">$Book Title</h3>
-                        <p class="author">%Author</p>
+                        <div class="title-info">
+                            <h3 class="title">$Book Title</h3>
+                            <p class="author">%Author</p>
+                            <img src="images/book-cover-placeholder.jpg" alt="Book Cover" class="book-cover">
+                        </div>
+
                         <p><strong>Book Length:</strong> <span class="pages">$no</span> pages</p>
                         <p class="amountread"><strong>Amount read:</strong> <span class="pagesread">$no</span> pages</p>
+                        <p class="notes"><strong>Notes about this book:</strong> <span class="notes">$notes</p>
                         <div class="completed">
 
-                              <p>You have not yet completed this book.</p></div>
+                              <p>You have not yet completed this book.</p>
+                        </div>
+
                         <div class="recommended">
 
-                              <p>$Recommended</p></div>
+                              <p>$Recommended</p>
 
+                        </div>
 
+                        <button>Update Card</button>
                     </div>
 
                 </div>
@@ -94,6 +103,8 @@
                         <input type="number" value="1" id="pages" name="pages" required><br>
                         <label for="pagesread">Amount of Pages Read</label><br>
                         <input type="number" value="1" id="pagesread" name="pagesread" required><br>
+                        <label for="notes">Notes about the book</label><br>
+                        <textarea id="notes"></textarea><br>
                         <input type="checkbox" id="completed" name="completed">
                         <label for="completed">Have you completed this book?</label><br>
                         <input type="checkbox" id="recommended" name="recommended">
