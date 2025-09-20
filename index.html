@@ -50,25 +50,32 @@
 
                 <div id="bookinfo">
 
-                    <div id="bookcard" class="no-display">
+                    <div id="bookcard">
+
+                        <span class="close">X</span>
 
                         <div class="title-info">
                             <h3 class="title">$Book Title</h3>
                             <p class="author">%Author</p>
+                            
                             <img src="images/book-cover-placeholder.jpg" alt="Book Cover" class="book-cover">
                         </div>
 
+                        <p class="rating-display"><strong>Rating:</strong><span class="stars"></span></p>
+                        
                         <p><strong>Book Length:</strong> <span class="pages">$no</span> pages</p>
                         <p class="amountread"><strong>Amount read:</strong> <span class="pagesread">$no</span> pages</p>
-                        <p class="notes"><strong>Notes about this book:</strong> <span class="notes">$notes</p>
                         <div class="completed">
 
-                              <p>You have not yet completed this book.</p>
+                              <p></p>
                         </div>
+                        
+
+                        <p class="notes"><strong>Notes about this book:</strong> <span class="notes">$notes</p>
 
                         <div class="recommended">
 
-                              <p>$Recommended</p>
+                              <p></p>
 
                         </div>
 
@@ -89,9 +96,11 @@
 
                 </div>
 
-                <div id="formcontainer" class="no-display">
+                <div id="formcontainer">
 
                     <form id="form">
+
+                        <span class="close">X</span>
 
                         <h2>Add a new book</h2>
 
@@ -100,15 +109,26 @@
                         <label for="author">Author</label><br>
                         <input type="text" id="author" name="author" required><br>
                         <label for="pages">Number of Pages</label><br>
-                        <input type="number" value="1" id="pages" name="pages" required><br>
-                        <label for="pagesread">Amount of Pages Read</label><br>
-                        <input type="number" value="1" id="pagesread" name="pagesread" required><br>
+                        <input type="number" id="pages" name="pages" required><br>
+                        <label for="pagesread" type="number">Amount of Pages Read</label><br>
+                        <input type="number"id="pagesread" name="pagesread" required><br>
                         <label for="notes">Notes about the book</label><br>
                         <textarea id="notes"></textarea><br>
                         <input type="checkbox" id="completed" name="completed">
                         <label for="completed">Have you completed this book?</label><br>
                         <input type="checkbox" id="recommended" name="recommended">
                         <label for="recommended">Would you recommend this book?</label><br>
+                        <div class="rating">
+                            <label>Rating:</label>
+                            <div id="stars">
+                                <span data-value="1">★</span>
+                                <span data-value="2">★</span>
+                                <span data-value="3">★</span>
+                                <span data-value="4">★</span>
+                                <span data-value="5">★</span>
+                            </div>
+                            <input type="hidden" id="rating" name="rating" value="0">
+                        </div>
                         <input type="submit" id="submitform" value="Submit">
                         
 
