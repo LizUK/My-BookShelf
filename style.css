@@ -20,6 +20,7 @@ a {
     grid-template-rows: 250px 2fr 1fr;
     align-items: start;
     border: 2px solid #000;
+    overflow: hidden;
 }
 
 header {
@@ -96,8 +97,6 @@ header {
     grid-auto-rows: 150px;
     align-items: end;
     padding: 15px 15px 0px 15px;
-    /*border: 2px solid #000;
-    border-bottom: 5px solid #000;*/
     border-radius: 10px;
     height: 180px;
     overflow-y: scroll;
@@ -129,6 +128,7 @@ header {
     box-shadow: 4px 6px 12px rgba(0,0,0,0.5);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    cursor: pointer;
 }
 
 .book p {
@@ -155,25 +155,6 @@ header {
   box-shadow: 4px 6px 12px rgba(0,0,0,0.5);
 }
 
-/* .bookblock {
-    border-bottom: solid 5px #000;
-} */
-/* .book {
-    display: grid;
-    padding-top: 5px;
-    writing-mode: vertical-rl;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-    text-wrap: nowrap;
-    overflow: hidden;
-    padding-bottom: 5px;
-    font-weight: bold;
-    text-align: center;
-    align-content: center;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}*/
-
 #page {
     grid-column: span 4;
 } 
@@ -189,6 +170,14 @@ header {
     height: 50px;
     border-radius: 5px;
     cursor: pointer;
+    box-shadow: 4px 6px 12px rgba(0,0,0,0.5);
+}
+
+#add-book:hover,
+#remove-book button:hover {
+  transform: translateY(-5px) rotate(-1deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 4px 6px 12px rgba(0,0,0,0.5);
 }
 
 #add-book {
@@ -213,7 +202,15 @@ header {
     background: #fff;
     padding: 20px;
     border: 1px solid #000;
-    border-radius: 15px;
+    border-radius: 15px;box-shadow: 10px 10px 12px -3px #666;
+    transform: translateX(100%); 
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+#form.show {
+    transform: translateX(0); 
+    opacity: 1;
 }
 
 .no-display {
@@ -248,6 +245,18 @@ header {
     border-radius: 5px;
 } 
 
+.close {
+    float: right;
+    background-color: red;
+    padding: 5px 10px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    cursor: pointer;
+}
+
 /**** BOOK CARD ****/
 
 #bookcard {
@@ -255,6 +264,15 @@ header {
     padding: 15px;
     border-radius: 15px;
     background-color: #fff;
+    box-shadow: 10px 10px 12px -3px #666;
+    transform: translateX(100%); 
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+#bookcard.show {
+    transform: translateX(0); 
+    opacity: 1;
 }
 
 #bookcard .title-info {
@@ -299,10 +317,13 @@ header {
     margin-bottom: 15px;
 }
 
-.completed p,
-.recommeded p {
+.completed p {
     display: inline;
 } 
+
+.recommended p {
+    font-weight: bold;
+}
 
 #bookcard button {
     font-size: 16px;
@@ -315,64 +336,43 @@ header {
     background-color: navy;
 }
 
-/***** Toggle switch *****/
+/*****  RATING *****/
 
-/* .switch {
+.rating {
+    padding-bottom: 20px;
+}
+
+.rating label {
+    font-weight: bold;
+}
+
+.rating #stars {
+  display: inline-block;
+  cursor: pointer;
     position: relative;
-    display: inline-block;
-    width: 45px;
-    height: 25px;
-  }
-  
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 5px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: darkcyan;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px darkcyan;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(16px);
-    -ms-transform: translateX(16px);
-    transform: translateX(16px);
-  } */
-  
-  /* Rounded sliders */
-  /* .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  } */
+    top: 5px;
+}
+
+.rating #stars span {
+  font-size: 2rem;
+  color: #ccc; /* default grey */
+  transition: color 0.2s;
+}
+
+.rating #stars span.selected,
+.rating #stars span.hover {
+  color: gold; /* highlight */
+}
+
+.rating-display {
+    position: relative;
+    top: -8px;
+}
+
+.rating-display .stars {
+    font-size: 30px;
+    color: orange;
+    position: relative;
+    top: 3px;
+}
+
