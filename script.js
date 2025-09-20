@@ -169,7 +169,6 @@ function openBookCard(book, index) {
   document.getElementById("completed").checked = book.completed;
   document.getElementById("recommended").checked = book.recommended;
 
-  formDiv.classList.remove("no-display");
 });
 
     //// REMOVE BOOK /////
@@ -279,7 +278,7 @@ myForm.addEventListener('submit', e => {
       updateStorage();
     }
 
-    formDiv.classList.add("no-display");
+    formDiv.classList.remove("show");
     myForm.reset();
   });
 
@@ -301,6 +300,7 @@ document.getElementById("pagesread").addEventListener("input", () => {
 function updateStorage() {
   localStorage.setItem(localStorageKey, JSON.stringify( bookShelf ));
 }
+
 
 
 
