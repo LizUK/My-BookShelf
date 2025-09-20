@@ -227,8 +227,8 @@ myForm.addEventListener('submit', e => {
 
   let title = document.getElementById("booktitle").value;
   let author = document.getElementById("author").value;
-  let pages =  document.getElementById("pages").value;
-  let pagesread = document.getElementById("pagesread").value;
+  let pages =  Number(document.getElementById("pages").value);
+  let pagesread = Number(document.getElementById("pagesread").value);
   let notes = document.getElementById("notes").value;
   let completed = document.getElementById("completed").checked;
   let recommended = document.getElementById("recommended").checked;
@@ -301,6 +301,7 @@ document.getElementById("pagesread").addEventListener("input", () => {
 function updateStorage() {
   localStorage.setItem(localStorageKey, JSON.stringify( bookShelf ));
 }
+
 
 
 
