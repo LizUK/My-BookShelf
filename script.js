@@ -7,25 +7,35 @@ const
   addBookBtn = document.getElementById('add-book'),
   clearBooksBtn = document.getElementById('clear-books'),
   myForm = document.getElementById('form'),
-  formDiv = document.getElementById('formcontainer'),
+  formDiv = document.getElementById('form'),
   submitFormBtn = document.getElementById('submitform'),
   bookCard = document.getElementById('bookcard'),
   showAll   = document.querySelector('#showall tbody'),
   removeBtn = document.querySelector('#remove-book'),
   upBtn = document.querySelector('button.up'),
   downBtn = document.querySelector('button.down'),
+  closeBookCard = document.querySelector('#bookcard .close'),
+  closeForm = document.querySelector('#form .close'),
   bookShelf = JSON.parse( localStorage.getItem(localStorageKey) || '[]' ),
   booksElms = [];
 
 let editingIndex = null;
 
-///// OPEN FORM /////
+///// OPEN & CLOSE FORM /////
 
 addBookBtn.addEventListener('click', () => {
-  formDiv.classList.remove('no-display');
+  formDiv.classList.add('show');
+  bookCard.classList.remove('show');
   document.getElementById('booktitle').focus();
 });
 
+closeForm.addEventListener('click', () => {
+  formDiv.classList.remove('show');
+});
+
+closeBookCard.addEventListener('click', () => {
+  bookCard.classList.remove('show');
+});
 /////     /////
 
 ///// CREATE RANDOM COLOUR AND SIZE /////
@@ -44,7 +54,7 @@ function getNumber(min, max) {
 
 ///// STORE BOOK DETAILS /////
 
-function BookDetails(title, author, pages, pagesread, notes, completed, recommended, color, width, height){
+function BookDetails(title, author, pages, pagesread, notes, completed, recommended, rating, color, width, height){
           this.title = title,
           this.author = author,
           this.pages = pages,
@@ -52,6 +62,7 @@ function BookDetails(title, author, pages, pagesread, notes, completed, recommen
           this.notes = notes,
           this.completed = completed,
           this.recommended = recommended,
+          this.rating = rating,
           this.color = color,
           this.width = width,
           this.height = height
@@ -107,7 +118,7 @@ function addBookFnc(bookObj, index) {
 
 function openBookCard(book, index) {
       
-    bookCard.classList.remove('no-display');
+    bookCard.classList.add('show');
     let titleSpace = document.querySelector('h3.title');
     let authorSpace = document.querySelector('p.author');
     let pagesSpace = document.querySelector('span.pages');
@@ -115,12 +126,15 @@ function openBookCard(book, index) {
     let notesSpace = document.querySelector('span.notes');
     let completedSpace = document.querySelector('div.completed p');
     let recommendedSpace = document.querySelector('div.recommended p');
+    let ratingSpace = document.querySelector(".rating-display .stars");
+
     
     titleSpace.innerHTML = book.title;
     authorSpace.innerHTML = book.author;
     pagesSpace.innerHTML = book.pages;
     pagesReadSpace.innerHTML = book.pagesread;
     notesSpace.innerHTML = book.notes;
+    ratingSpace.innerHTML = " " + "★".repeat(book.rating) + "☆".repeat(5 - book.rating);
     let completedValue = book.completed;
     let recommendedValue = book.recommended;
 
@@ -146,6 +160,7 @@ function openBookCard(book, index) {
   updateBtn.addEventListener("click", () => {
   editingIndex = index;
 
+  document.querySelector("#form h2").textContent = "Editing  " + book.title;
   document.getElementById("booktitle").value = book.title;
   document.getElementById("author").value = book.author;
   document.getElementById("pages").value = book.pages;
@@ -170,6 +185,41 @@ function openBookCard(book, index) {
   };
 };
 
+///// STAR RATING LOGIC /////
+const stars = document.querySelectorAll("#stars span");
+const ratingInput = document.getElementById("rating");
+
+stars.forEach(star => {
+  star.addEventListener("mouseover", () => {
+    resetStars();
+    highlightStars(star.dataset.value);
+  });
+
+  star.addEventListener("mouseout", () => {
+    resetStars();
+    highlightStars(ratingInput.value);
+  });
+
+  star.addEventListener("click", () => {
+    ratingInput.value = star.dataset.value;
+    resetStars();
+    highlightStars(ratingInput.value);
+  });
+});
+
+function resetStars() {
+  stars.forEach(star => star.classList.remove("selected", "hover"));
+}
+
+function highlightStars(rating) {
+  stars.forEach(star => {
+    if (star.dataset.value <= rating) {
+      star.classList.add("selected");
+    }
+  });
+}
+
+
 ///// FORM SUBMIT /////
 myForm.addEventListener('submit', e => {
 
@@ -182,7 +232,16 @@ myForm.addEventListener('submit', e => {
   let notes = document.getElementById("notes").value;
   let completed = document.getElementById("completed").checked;
   let recommended = document.getElementById("recommended").checked;
+  let rating = document.getElementById("rating").value;
+  
+  let pagesReadInput = document.getElementById("pagesread");
+  pagesReadInput.setCustomValidity("");
 
+  if (pagesread > pages) {
+    pagesReadInput.setCustomValidity("The pages read cannot be greater than the total pages.");
+    pagesReadInput.reportValidity(); 
+    return; 
+  }
 
   if (pages == pagesread) {
     completed = true;
@@ -198,8 +257,7 @@ myForm.addEventListener('submit', e => {
     height = oldBook.height;
 
     bookShelf[editingIndex] = new BookDetails(
-      title, author, pages, pagesread, notes, completed, recommended,
-      color, width, height
+      title, author, pages, pagesread, notes, completed, recommended, rating, color, width, height
     );
 
     updateStorage();
@@ -213,8 +271,7 @@ myForm.addEventListener('submit', e => {
       height = getNumber(70, 150);
 
       let newBook = new BookDetails(
-        title, author, pages, pagesread, notes, completed, recommended,
-        color, width, height
+        title, author, pages, pagesread, notes, completed, recommended, rating, color, width, height
       );
 
       bookShelf.push(newBook);
@@ -225,6 +282,19 @@ myForm.addEventListener('submit', e => {
     formDiv.classList.add("no-display");
     myForm.reset();
   });
+
+  ///// LIVE VALIDATION /////
+document.getElementById("pagesread").addEventListener("input", () => {
+  let pagecount = Number(document.getElementById("pages").value);
+  let pageread = Number(document.getElementById("pagesread").value);
+  let pageReadInput = document.getElementById("pagesread");
+
+  if (pageread > pagecount) {
+    pageReadInput.setCustomValidity("The pages read cannot be greater than the total pages.");
+  } else {
+    pageReadInput.setCustomValidity(""); // clears error immediately
+  }
+});
 
 /////    /////
 
